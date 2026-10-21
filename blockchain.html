@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block title %}Blockchain Ledger{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Blockchain Ledger</h1>
+    <p>View the blocks that store student record hashes.</p>
+
+    {% if valid %}
+        <p class="pill good">Blockchain Status: Valid</p>
+    {% else %}
+        <p class="pill bad">Blockchain Status: Invalid</p>
+    {% endif %}
+</section>
+
+{% if chain %}
+    {% for block in chain %}
+    <section class="panel">
+        <h2>
+            {% if block.student_id == "GENESIS" %}
+                Genesis Block
+            {% else %}
+                Block #{{ block.index }}
+            {% endif %}
+        </h2>
+
+        <p><strong>Index:</strong> {{ block.index }}</p>
+        <p><strong>Timestamp:</strong> {{ block.timestamp }}</p>
+        <p><strong>Student ID:</strong> {{ block.student_id }}</p>
+
+        <p><strong>Record Hash:</strong></p>
+        <code class="hash">{{ block.record_hash }}</code>
+
+        <p><strong>Previous Hash:</strong></p>
+        <code class="hash">{{ block.previous_hash }}</code>
+
+        <p><strong>Block Hash:</strong></p>
+        <code class="hash">{{ block.block_hash }}</code>
+    </section>
+    {% endfor %}
+{% else %}
+    <section class="panel">
+        <p>No blockchain blocks found.</p>
+        <p>Add a student record from the Students page to create a block.</p>
+    </section>
+{% endif %}
+{% endblock %}
